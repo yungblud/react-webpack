@@ -1,9 +1,15 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const htmlPlugin = new HtmlWebpackPlugin({
     template: './public/index.html',
     filename: './index.html',
+})
+
+const cssPlugin = new MiniCssExtractPlugin({
+    filename: '[name].css',
+    chunkFilename: '[id].css',
 })
 
 const config = mode => {
@@ -24,28 +30,36 @@ const config = mode => {
                     },
                 },
                 {
-                    test: /\.(css)$/,
+                    test: /\.(css|scss)$/,
                     use: [
                         {
-                            loader: 'style-loader',
+                            loader: MiniCssExtractPlugin.loader,
                         },
                         {
                             loader: 'css-loader',
                             options: {
                                 modules: {
                                     localIdentName: isDevelopMode
-                                        ? '[path][name]__[local]--[hash:base64:5]'
-                                        : '[name]__[local]--[hash:base64:5]',
+                                        ? '[path][name]__[local]--[hash:base64:7]'
+                                        : '[name]__[local]--[hash:base64:7]',
                                 },
-                                importLoaders: 1,
+                                importLoaders: 2,
                                 sourceMap: true,
+                            },
+                        },
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                sourceMap: true,
+
+                                // importLoaders: 1,
                             },
                         },
                     ],
                 },
             ],
         },
-        plugins: [htmlPlugin],
+        plugins: [htmlPlugin, cssPlugin],
     }
 }
 

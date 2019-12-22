@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-
-const Root = () => <div>Hello World!</div>
+import Root from './components/Root'
+import './styles/index.scss'
 
 ReactDOM.render(<Root />, document.getElementById('root'))
