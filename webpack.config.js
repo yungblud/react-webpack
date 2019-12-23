@@ -2,7 +2,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const WebpackPwaManifest = require('webpack-pwa-manifest')
-const { GenerateSW } = require('workbox-webpack-plugin')
+const { GenerateSW, InjectManifest } = require('workbox-webpack-plugin')
 const manifest = require('./public/manifest.json')
 
 const htmlPlugin = new HtmlWebpackPlugin({
@@ -17,16 +17,9 @@ const cssPlugin = new MiniCssExtractPlugin({
 
 const pwaPlugin = new WebpackPwaManifest(manifest)
 
-const workboxPlugin = new GenerateSW({
+const workboxPlugin = new InjectManifest({
+    swSrc: './src/sw.js',
     swDest: 'sw.js',
-    clientsClaim: true,
-    skipWaiting: true,
-    runtimeCaching: [
-        {
-            urlPattern: new RegExp('https://jsonplaceholder.typicode.com'),
-            handler: 'StaleWhileRevalidate',
-        },
-    ],
 })
 
 const config = mode => {
