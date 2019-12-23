@@ -26,7 +26,9 @@ const workboxPlugin = new GenerateSW({
 const config = mode => {
     const isDevelopMode = mode === 'development'
     return {
-        entry: './src/index.js',
+        entry: {
+            app: ['@babel/polyfill', './src/index.js'],
+        },
         output: {
             path: path.join(__dirname, '/build'),
             filename: 'index.bundle.js',
