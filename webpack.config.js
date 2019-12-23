@@ -21,6 +21,12 @@ const workboxPlugin = new GenerateSW({
     swDest: 'sw.js',
     clientsClaim: true,
     skipWaiting: true,
+    runtimeCaching: [
+        {
+            urlPattern: new RegExp('https://jsonplaceholder.typicode.com'),
+            handler: 'StaleWhileRevalidate',
+        },
+    ],
 })
 
 const config = mode => {

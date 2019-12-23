@@ -29,7 +29,7 @@ const TodoWrapper = () => {
     const getTodoList = async () => {
         try {
             const { data: todoList } = await axios.get(
-                'https:///jsonplaceholder.typicode.com/todos'
+                'https://jsonplaceholder.typicode.com/todos'
             )
             setTodoList(todoList.splice(0, 10))
         } catch (e) {
