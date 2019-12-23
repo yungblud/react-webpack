@@ -1,6 +1,9 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const WebpackPwaManifest = require('webpack-pwa-manifest')
+const { GenerateSW } = require('workbox-webpack-plugin')
+const manifest = require('./public/manifest.json')
 
 const htmlPlugin = new HtmlWebpackPlugin({
     template: './public/index.html',
@@ -10,6 +13,14 @@ const htmlPlugin = new HtmlWebpackPlugin({
 const cssPlugin = new MiniCssExtractPlugin({
     filename: '[name].css',
     chunkFilename: '[id].css',
+})
+
+const pwaPlugin = new WebpackPwaManifest(manifest)
+
+const workboxPlugin = new GenerateSW({
+    swDest: 'sw.js',
+    clientsClaim: true,
+    skipWaiting: true,
 })
 
 const config = mode => {
@@ -59,7 +70,7 @@ const config = mode => {
                 },
             ],
         },
-        plugins: [htmlPlugin, cssPlugin],
+        plugins: [htmlPlugin, cssPlugin, pwaPlugin, workboxPlugin],
     }
 }
 
